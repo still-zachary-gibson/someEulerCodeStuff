@@ -5,6 +5,8 @@
 prime_list = []
 max_prime = 0
 
+#heaps_baby = [0,1]
+
 import math
 
 def is_prime(n):
@@ -30,6 +32,8 @@ def factorization(numba):
             is_prime(iter)
             iter += 1
         #print(prime_list)
+    if numba == 1:
+        return [1]
     return_ma = []
     number = numba
     iter = 0
@@ -43,8 +47,33 @@ def factorization(numba):
                 break
     return return_ma
     #return a list?
-
+'''
 iter = 2
-while iter < 20:
-    print(factorization(iter))
+while iter < 80:
+    heaps_baby.append(factorization(iter))
     iter += 1
+'''
+
+#print(factorization(70))
+
+def willOneWin(the_heaps):
+    if(the_heaps == [1]):
+        return False
+    amazing_number = the_heaps[0]
+    for i in range(1, len(the_heaps)):
+        amazing_number = amazing_number^the_heaps[i]
+    if amazing_number == 0:
+        return False
+    else:
+        return True
+
+loss_amount = 0
+max_numb = 10**14
+
+for i in range(1,max_numb+1):
+    #print(factorization(i))
+    if not willOneWin(factorization(i)):
+        #print(i/max_numb)
+        loss_amount += i
+
+print(loss_amount % (10**9+7))

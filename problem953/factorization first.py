@@ -34,17 +34,18 @@ def factorization(numba):
         #print(prime_list)
     if numba == 1:
         return [1]
+    if is_prime(numba):
+        return [numba]
     return_ma = []
     number = numba
     iter = 0
-    while iter < len(prime_list):
-        if(number % prime_list[iter] == 0):
-            number /= prime_list[iter]
-            return_ma.append(prime_list[iter])
-        else:
-            iter += 1
-            if(number == 1):
-                break
+    for iter in prime_list:
+        if(number % iter == 0):
+            while number % iter == 0:
+                number /= iter
+                return_ma.append(iter)
+        if(number == 1):
+            break
     return return_ma
     #return a list?
 '''
@@ -59,6 +60,8 @@ while iter < 80:
 def willOneWin(the_heaps):
     if(the_heaps == [1]):
         return False
+    if(len(the_heaps) == 1):
+        return True
     amazing_number = the_heaps[0]
     for i in range(1, len(the_heaps)):
         amazing_number = amazing_number^the_heaps[i]
@@ -67,13 +70,21 @@ def willOneWin(the_heaps):
     else:
         return True
 
-loss_amount = 0
+loss_amount = 1
 max_numb = 10**14
 
-for i in range(1,max_numb+1):
+import time
+
+funny_thing = time.time()
+
+for i in range(2,max_numb+1):
     #print(factorization(i))
+    if is_prime(i):
+        continue
     if not willOneWin(factorization(i)):
-        #print(i/max_numb)
+        #print(i/max_numb*100)
         loss_amount += i
 
 print(loss_amount % (10**9+7))
+
+print(time.time() - funny_thing)

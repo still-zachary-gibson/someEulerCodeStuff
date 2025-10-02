@@ -104,12 +104,14 @@ def check_if_magic():
             break
     #print(cur_ring, magic)
     if magic:
-        print(cur_ring)
+        starting_num = math.inf
         starting_point = math.inf
         for i in range(len(cur_ring)):
-            if cur_ring[i][0] < starting_point:
+            if cur_ring[i][0] < starting_num:
                 starting_point = i
+                starting_num = cur_ring[i][0]
         i = starting_point
+        #print(cur_ring, cur_ring[i])
         temp_str = ""
         while True:
             for j in cur_ring[i]:
@@ -117,6 +119,7 @@ def check_if_magic():
             i = (i+1) % len(cur_ring)
             if i == starting_point:
                 break
+        #print(temp_str)
         if len(temp_str) == 16:
             sixteen_ones.append(temp_str)
 
@@ -134,7 +137,7 @@ def run_loop():
 
         #print(current_ring())
 
-        wasteNoTime = False #having it true broke things.
+        wasteNoTime = True
 
         if wasteNoTime:
             if current_index % 3 == 2 and current_index > 3:

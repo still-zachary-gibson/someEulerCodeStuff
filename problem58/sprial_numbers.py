@@ -42,17 +42,35 @@ def generate_sprial(size,clockwise=True):
         current_postion = [math.floor(size/2), math.floor(size/2)] #y, x
         spooky_numb = math.floor(size/2)
     cur_dir = 0 #0 right, 1 down, 2 left, 3 up
+    allowed_length = 1
     while number_to_yeah <= size**2:
-        cool_spiral[current_postion[0]][current_postion[1]] = number_to_yeah
-        number_to_yeah += 1
-        look_for = size if cur_dir < 2 else -1 #i didn't notice this was different,,,
-        if current_postion[(cur_dir+1)%2] + spooky_numb*(1-(math.floor(cur_dir/2)*2)) == look_for:
-            if cur_dir == 1 + clockwise*2:
-                spooky_numb -= 1
-            cur_dir = (cur_dir+1*((clockwise*2)-1)) % 4
-            current_postion[(cur_dir+1)%2] += 1*(1-(math.floor(cur_dir/2)*2))
-        else:
-            current_postion[(cur_dir+1)%2] += 1*(1-(math.floor(cur_dir/2)*2))
+        #cool_spiral[current_postion[0]][current_postion[1]] = number_to_yeah
+        if cur_dir < 2:
+            how_far_go = (size - current_postion[(cur_dir+1)%2])-1
+        elif cur_dir >= 2:
+            how_far_go = (current_postion[(cur_dir+1)%2] - size)+1
+        if cur_dir == 0:
+            cool_spiral[current_postion[0]][current_postion[1]:current_postion[1]+how_far_go] = list(range(number_to_yeah, number_to_yeah+how_far_go))
+            current_postion[(cur_dir+1)%2] += how_far_go-1
+            number_to_yeah += how_far_go
+        elif cur_dir == 1:
+            for i in range(current_postion[0], current_postion[0]+how_far_go):
+                cool_spiral[i][current_postion[1]] = number_to_yeah
+                number_to_yeah += 1
+            current_postion[0] += how_far_go-1
+        elif cur_dir == 2:
+            print(cool_spiral[current_postion[0]][current_postion[1]+how_far_go+1:current_postion[1]+1])
+            cool_spiral[current_postion[0]][current_postion[1]+how_far_go+1:current_postion[1]+1] = list(range(number_to_yeah-how_far_go, number_to_yeah,-1))
+            current_postion[0] += how_far_go
+        print(cool_spiral, current_postion)
+        #look_for = size if cur_dir < 2 else -1 #i didn't notice this was different,,,
+        #if current_postion[(cur_dir+1)%2] + spooky_numb*(1-(math.floor(cur_dir/2)*2)) == look_for:
+        #if cur_dir == 1 + clockwise*2:
+        #    spooky_numb -= 1
+        cur_dir = (cur_dir+1*((clockwise*2)-1)) % 4
+        current_postion[(cur_dir+1)%2] += 1*(1-(math.floor(cur_dir/2)*2))
+        #else:
+        #    current_postion[(cur_dir+1)%2] += 1*(1-(math.floor(cur_dir/2)*2))
     return cool_spiral
 
 def calc_corners(spiral):
@@ -97,12 +115,12 @@ def calc_prime_corners(spiral):
     return (prime_amount/((size+1)*2-1)) # 7 gives 8 / 13, so right on
 
 prime_percent = 1
-size = 1
+size = 5
 
 while prime_percent*100 >= 10:
     size += 2
 
-    the_spiral = generate_sprial(size, False)
+    the_spiral = generate_sprial(size, True)
 
     #print(the_spiral)
 

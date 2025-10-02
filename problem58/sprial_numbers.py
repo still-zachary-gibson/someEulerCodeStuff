@@ -67,17 +67,45 @@ def calc_corners(spiral):
     return sum
 
 def calc_prime_corners(spiral):
+    global prime_amount
     size = len(spiral)-1
-    prime_amount = 0
-    for y in range(len(spiral)):
-        for x in range(len(spiral[y])):
-            if x == y:
-                if is_prime(spiral[y][x]):
-                    prime_amount += 1
-            elif y == size - x:
-                if is_prime(spiral[y][x]):
-                    prime_amount += 1
-    return(prime_amount/((size+1)*2-1)) # 7 gives 8 / 13, so right on
+    exists = True
+    try:
+        test = prime_amount
+    except:
+        exists = False
+    print("Size:",size)
+    if exists:
+        #Another speed increase, less to calc
+        #oops it breaks the calcs?
+        #print(is_prime(spiral[0][0]), spiral[0][0])
+        print("Old Prime:",prime_amount)
+        #print(spiral[0][0], is_prime(spiral[0][0]))
+        #print(spiral[0][size], is_prime(spiral[0][size]))
+        #print(spiral[size][0], is_prime(spiral[size][0]))
+        #print(spiral[size][size], is_prime(spiral[size][size]))
+        if is_prime(spiral[0][0]):
+            prime_amount += 1
+        if is_prime(spiral[0][size]):
+            prime_amount += 1
+        if is_prime(spiral[size][0]):
+            prime_amount += 1
+        if is_prime(spiral[size][size]): #IT WAS 0 size AAARGH
+            prime_amount += 1
+        print("New Prime:",prime_amount)
+    else:
+        prime_amount = 0
+        print("Old Prime:",prime_amount)
+        for y in range(len(spiral)):
+            for x in range(len(spiral[y])):
+                if x == y:
+                    if is_prime(spiral[y][x]):
+                        prime_amount += 1
+                elif y == size - x:
+                    if is_prime(spiral[y][x]):
+                        prime_amount += 1
+        print("New Prime:",prime_amount)
+    return (prime_amount/((size+1)*2-1)) # 7 gives 8 / 13, so right on
 
 prime_percent = 1
 size = 1
@@ -91,6 +119,9 @@ while prime_percent*100 >= 10:
 
     prime_percent = (calc_prime_corners(the_spiral))
 
-    print(size, prime_percent*100)
+    if size > 300:
+        print("STOOPP")
+
+    #print(size, prime_percent*100)
 
 print(size)

@@ -19,21 +19,33 @@ def generate_sprial(size,clockwise=True):
         test = (the_spiral)
     except:
         do_we_have = False
-    cool_spiral = []
-    for i in range(size):
-        cool_spiral.append([0]*size)
-    number_to_yeah = 1
-    current_postion = [math.floor(size/2), math.floor(size/2)] #y, x
-    spooky_numb = math.floor(size/2)
+    if do_we_have: #new code for awesomeness
+        #it only works for +2 size increases but i don't care enough currently
+        #OH THAT'S SUCH A SPEED INCREASE
+        cool_spiral = the_spiral
+        for i in cool_spiral:
+            i.insert(0,0)
+            i.append(0)
+        cool_spiral = [[0]*size] + cool_spiral + [[0]*size]
+        if clockwise:
+            number_to_yeah = cool_spiral[1][size-2]
+            current_postion = [1, size-2]
+        else:
+            number_to_yeah = cool_spiral[size-2][size-2]
+            current_postion = [size-2, size-2]
+        spooky_numb = 1
+    else:
+        cool_spiral = []
+        for i in range(size):
+            cool_spiral.append([0]*size)
+        number_to_yeah = 1
+        current_postion = [math.floor(size/2), math.floor(size/2)] #y, x
+        spooky_numb = math.floor(size/2)
     cur_dir = 0 #0 right, 1 down, 2 left, 3 up
-    while number_to_yeah <= size**2: #This code is an if else hell, lemme fix.
+    while number_to_yeah <= size**2:
         cool_spiral[current_postion[0]][current_postion[1]] = number_to_yeah
         number_to_yeah += 1
-        #print("Cur Pos, Y:",  current_postion[0], "X:", current_postion[1])
-        #print("X/Y, 1/0:",(cur_dir+1)%2)
-        #print("Dir to check:", spooky_numb*(1-(math.floor(cur_dir/2)*2)))
         look_for = size if cur_dir < 2 else -1 #i didn't notice this was different,,,
-        #print(current_postion[(cur_dir+1)%2] + spooky_numb*(1-(math.floor(cur_dir/2)*2)) == look_for)
         if current_postion[(cur_dir+1)%2] + spooky_numb*(1-(math.floor(cur_dir/2)*2)) == look_for:
             if cur_dir == 1 + clockwise*2:
                 spooky_numb -= 1
@@ -41,33 +53,6 @@ def generate_sprial(size,clockwise=True):
             current_postion[(cur_dir+1)%2] += 1*(1-(math.floor(cur_dir/2)*2))
         else:
             current_postion[(cur_dir+1)%2] += 1*(1-(math.floor(cur_dir/2)*2))
-        '''
-        if cur_dir == 0:
-            if current_postion[1] + spooky_numb == size:
-                cur_dir = 1
-                current_postion[0] += 1
-            else:
-                current_postion[1] += 1
-        elif cur_dir == 1:
-            if current_postion[0] + spooky_numb == size:
-                cur_dir = 2
-                current_postion[1] -= 1
-            else:
-                current_postion[0] += 1
-        elif cur_dir == 2:
-            if current_postion[1] - spooky_numb == -1:
-                cur_dir = 3
-                current_postion[0] -= 1
-            else:
-                current_postion[1] -= 1
-        elif cur_dir == 3:
-            if current_postion[0] - spooky_numb == -1:
-                cur_dir = 0
-                spooky_numb -= 1
-                current_postion[1] += 1
-            else:
-                current_postion[0] -= 1
-        '''
     return cool_spiral
 
 def calc_corners(spiral):
@@ -86,7 +71,6 @@ def calc_prime_corners(spiral):
     prime_amount = 0
     for y in range(len(spiral)):
         for x in range(len(spiral[y])):
-            print(spiral[y][x])
             if x == y:
                 if is_prime(spiral[y][x]):
                     prime_amount += 1
@@ -107,6 +91,6 @@ while prime_percent*100 >= 10:
 
     prime_percent = (calc_prime_corners(the_spiral))
 
-    #print(size, prime_percent*100)
+    print(size, prime_percent*100)
 
 print(size)

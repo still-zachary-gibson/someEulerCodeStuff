@@ -25,6 +25,7 @@ def print_spiral(spi): #brain hurts
 #I need to optimize, and reuse for some time gain.
 def generate_sprial(size,clockwise=True):
     global the_spiral
+    cur_dir = 0 #0 right, 1 down, 2 left, 3 up
     try:
         cool_spiral = the_spiral
         for i in cool_spiral:

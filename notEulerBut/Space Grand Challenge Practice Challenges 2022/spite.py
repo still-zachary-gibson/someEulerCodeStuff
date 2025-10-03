@@ -73,4 +73,10 @@ def generate_shuffle(conditions):
             awesome_list.append(key)
     return(awesome_list)
 
-print(generate_shuffle([1,1,2]))
+total = []
+for i in range(3):
+    thing = [1,1,1]
+    thing[i] += 1
+    total.extend(generate_shuffle(thing))
+
+print(total)

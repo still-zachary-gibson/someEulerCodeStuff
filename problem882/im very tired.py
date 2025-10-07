@@ -106,7 +106,7 @@ def zero_saver(strng): #find what one saves the most 0s.
 def game_time(start):
     OnesTurn = True
     zeroSkips = 0
-    print(start, OnesTurn)
+    #print(start, OnesTurn)
     while True:
         if not OnesTurn and not any_ones(start):
             OnesTurn = not OnesTurn
@@ -150,7 +150,7 @@ def game_time(start):
         else:
             while start[choice][0] == "0" and len(start[choice]) > 1:
                 start[choice] = start[choice][1:]
-        print(start, int(OnesTurn))
+        #print(start, int(OnesTurn))
         OnesTurn = not OnesTurn
     print(f"Zero won, only needing {zeroSkips} skips.")
         

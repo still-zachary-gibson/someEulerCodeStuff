@@ -2,6 +2,8 @@
 
 import math
 
+import sys #this just for testin
+
 #this one generates the starting state
 def generate_start(n):
     cool = []
@@ -106,9 +108,12 @@ def zero_saver(strng): #find what one saves the most 0s.
 def game_time(start):
     OnesTurn = True
     zeroSkips = 0
-    #print(start, OnesTurn)
+    print("_"*20)
+    print(start, "Turn: None")
     while True:
         if not OnesTurn and not any_ones(start):
+            if zeroSkips == 0:
+                print("It begins!")
             OnesTurn = not OnesTurn
             zeroSkips += 1
             continue
@@ -131,7 +136,8 @@ def game_time(start):
                     if destr[0] > best_descruction[0]:
                         best_descruction = (destr[0], destr[1], index)
             #how_many,which sub index, which_index
-            if best_descruction[0] == -1:
+            if best_descruction[0] == -1: #apprently this should never be called?
+                print("UHM")
                 best_descruction=(math.inf,0,0)
                 for index, i in enumerate(start):
                     if i != "0":
@@ -150,10 +156,22 @@ def game_time(start):
         else:
             while start[choice][0] == "0" and len(start[choice]) > 1:
                 start[choice] = start[choice][1:]
-        #print(start, int(OnesTurn))
+        print(start, "Turn: " + str(int(OnesTurn)))
         OnesTurn = not OnesTurn
     print(f"Zero won, only needing {zeroSkips} skips.")
+    return zeroSkips
         
+if game_time(generate_start(2)) != 2:
+    print("You broke something REALLY badly.")
+    sys.exit()
+if game_time(generate_start(5)) != 17:
+    print("You broke something.")
+    sys.exit()
+if game_time(generate_start(10)) != 64:
+    print("Still don't got it.")
+    sys.exit()
 
-
-game_time(generate_start(10))
+game_time(generate_start(10**5))
+#2 = 2
+#5 = 17
+#10 = 64

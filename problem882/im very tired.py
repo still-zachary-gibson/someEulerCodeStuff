@@ -135,6 +135,9 @@ def game_time(start):
                     destr = zero_destroyer(i)
                     if destr[0] > best_descruction[0]:
                         best_descruction = (destr[0], destr[1], index)
+                    elif destr[0] >= best_descruction[0] and len(i) > len(start[best_descruction[2]]) and best_descruction[0] != -1:
+                        best_descruction = (destr[0], destr[1], index)
+                        print("Better move?")
             #how_many,which sub index, which_index
             if best_descruction[0] == -1: #apprently this should never be called?
                 print("UHM")

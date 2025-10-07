@@ -68,6 +68,53 @@ def any_ones(array): #can zero play any moves?
     return wrong
 
 def zero_destroyer(strng): #see how many 0s any move would remove
+    action_taken_str = strng[1:]
+    if len(action_taken_str) < 1: #1 -> 0
+        return (1,0) #it is... a move.
+    while len(action_taken_str) > 0:
+        if action_taken_str[0] == "0":
+            action_taken_str = action_taken_str[1:]
+        else: break
+    else:
+        return (len(strng),0)
+    #1001 -> 001 -> 01 -> 1
+    #okay, goal should be to reduce 0s, but if possible choose ones with more ones?
+    #something about uh,,, making moves that lead to more0s being taken?
+
+    #okay lets think
+    #1000 vs 1001
+    #is one of these better?
+    #okay yeah, 1001 is
+    #cause it gives an extra turn to 1 in the end
+
+    #but does that matter at all to this algorithm?
+    #is there any way that conclusion would affect gameplay?
+
+    #should i also think about 0s gameplan?
+    #okay, 0 would prefer 1000 to 1001?
+    #1000 -> 100 -> 10 -> 1
+    #1001 -> 101 -> 11
+
+    #yeah, 0 would. so 1 should try to go for that one?
+    #there's no way for an extra 1 to pop into existence, isn't there?
+
+    #oh god i think there is, 10 can become 1 or 0, depending on who plays
+    #there is a way to cause extra turns that way, if 1 FORCES 0 to take moves that keep 1s, and 1 tries to not take moves that don't
+    
+    #now how to demonstrate that in code. lets see, 100?
+
+    #right meaning 1 played, v is 0 played
+    #100 > 0
+    #    v 10 > 0
+    #         v 1
+
+    #wait no i  dont think there's extra turns? no, thereisn't. it's just how many turns are used up by 0 skipping that changes...
+    #so 1's goal is to pull the point where 0 has no more moves, ie all numbers < 10, closer...
+    #and 0's goal is to push it farther away.
+
+    #my brain hurts so much
+
+    '''
     max_leading = (0,0)
     for index in range(len(strng)):
         if strng[index] == "0":
@@ -82,6 +129,7 @@ def zero_destroyer(strng): #see how many 0s any move would remove
         if leading > max_leading[0]:
             max_leading = (leading, index)
     return max_leading
+    '''
 
 #while True:
 #    print(zero_destroyer(input("Enter Binary Num: ")))

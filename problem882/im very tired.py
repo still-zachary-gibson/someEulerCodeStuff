@@ -15,18 +15,37 @@ def generate_start(n):
     cool = []
     for i in range(1,n+1):
         print(i)
-        for j in range(i): cool.append(num_to_binary(i))
-    with open("saved_start_"+str(n), 'w') as config_file:
-        json.dump(cool, config_file)
+        thing_to = num_to_binary(i) #who would've thought this would become a choke point?
+        for j in range(i): cool.append(thing_to)
+    #with open("saved_start_"+str(n), 'w') as config_file:
+    #    json.dump(cool, config_file) #I am commenting this line out because it wastes like 10 minutes so it can create a multi gigabyte file. (106 minutes to make a 95GB file.)
     return cool
 
-seen = (0,0)
+seen = (-1,0)
 #okay lets see here, see how big the number is compared to power of twos...
 #log, probably
 def num_to_binary(n): #input int
     global seen
+    og_n = n
     if seen[0] == n:
         return seen[1]
+    elif seen[0]+1 == n:
+        base = list(seen[1])
+        index = len(base)-1
+        while True:
+            if index == -1:
+                base = ["1"] + base
+                binary = "".join(base)
+                seen = [og_n, binary]
+                return binary
+            if base[index] == "0":
+                base[index] = "1"
+                binary = "".join(base) #originally this just had break, but i changed it to the same code as -1
+                seen = [og_n, binary] #idk if this is faster or not.
+                return binary #i think it is but i'm not fully sure.
+            else:
+                base[index] = "0"
+                index -= 1
     hi_est = (math.floor(math.log2(n)))
     binary = ""
     while hi_est >= 0:
@@ -38,7 +57,7 @@ def num_to_binary(n): #input int
         hi_est -= 1
     #while binary[0] == "0": #Wait, this code is never used.
     #    binary = binary[1:]
-    seen = [n, binary]
+    seen = [og_n, binary]
     return binary #output str
 
 def binary_to_num(b): #input str

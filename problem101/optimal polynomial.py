@@ -50,6 +50,24 @@ def determinant(old):
         return old[0][0]*old[1][1]-old[0][1]*old[1][0]
     #elif len(old) == 3:
     else:
+        resulting_factors = []
+        for cur_row in range(len(old)):
+            temp_matrix = []
+            iter = -1
+            for temp_row in range(len(old)):
+                if temp_row != cur_row:
+                    temp_matrix.append([])
+                    iter += 1
+                    for temp_col in range(1,len(old[temp_row])):
+                        temp_matrix[iter].append(old[temp_row][temp_col])
+            resulting_factors.append(determinant(temp_matrix))
+        returning_sum = 0
+        for cur_row in range(len(old)):
+            print(old[cur_row][0] * resulting_factors[cur_row] * (-1)**cur_row)
+            returning_sum += old[cur_row][0] * resulting_factors[cur_row] * (-1)**cur_row
+        print(returning_sum)
+        print("waggabaga bobo")
+        '''
         uhm_yeah = []
         for cur_row in range(len(old)):
             for cur_col in range(len(old[cur_row])):
@@ -71,6 +89,7 @@ def determinant(old):
                 sim += uhm_yeah[i][j] * old[i][j]
         #print(sim)
         return sim
+        '''
 
 def get_co(old):
     uhm_yeah = []

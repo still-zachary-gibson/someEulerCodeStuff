@@ -11,6 +11,13 @@ def polynomial_ints_outputer(how_many, *coefficents):
     if type(how_many) is int:
         how_many = [1, how_many]
 
+    if len(coefficents) == 1:
+        sort_it_out = []
+        for i in coefficents:
+            for j in i:
+                sort_it_out.append(j)
+        coefficents = tuple(sort_it_out)
+
     coefficents = coefficents[::-1]
 
     for x in range(how_many[0],how_many[1]+1):
@@ -63,10 +70,11 @@ def determinant(old):
             resulting_factors.append(determinant(temp_matrix))
         returning_sum = 0
         for cur_row in range(len(old)):
-            print(old[cur_row][0] * resulting_factors[cur_row] * (-1)**cur_row)
+            #print(old[cur_row][0] * resulting_factors[cur_row] * (-1)**cur_row)
             returning_sum += old[cur_row][0] * resulting_factors[cur_row] * (-1)**cur_row
-        print(returning_sum)
-        print("waggabaga bobo")
+        #print(returning_sum)
+        #print("waggabaga bobo")
+        return returning_sum
         '''
         uhm_yeah = []
         for cur_row in range(len(old)):
@@ -109,15 +117,16 @@ def get_co(old):
     return uhm_yeah
 
 def matrix_inverse(old_matrix):
-    cofactor = transpose(get_co(old_matrix))
-    print(cofactor)
-    determint = 1
+    ajoint = transpose(get_co(old_matrix))
+    determint = determinant(old_matrix)
     inverse = []
-    for cur_row in range(len(cofactor)):
+    for cur_row in range(len(ajoint)):
         inverse.append([])
-        for cur_col in range(len(cofactor[cur_row])):
-            inverse.append(cofactor[cur_row][cur_col] / determint)
-    pass
+        for cur_col in range(len(ajoint[cur_row])):
+            inverse[cur_row].append(ajoint[cur_row][cur_col] / determint)
+    return inverse
+    #for i in inverse:
+    #    print(i)
 
 #matrix_inverse([[1,1,1],[2,1,1],[1,1,2]])
 
@@ -139,14 +148,23 @@ def polynomial_factory(ref_points):
             x_matrix[y].append((y+1)**x)
     x_t = transpose(x_matrix)
     y_t = transpose([ref_points])
-    print(matrix_mult(x_t, x_matrix))
+    coefficents_temp = (matrix_mult(matrix_mult(matrix_inverse(matrix_mult(x_t, x_matrix)),x_t),y_t))
+    coefficents = []
+    for i in coefficents_temp:
+        for j in i:
+            coefficents.append(j)
+    print(coefficents)
+    return reversed(coefficents)
     #print(y_t)
 
 #matrix_inverse([[1,2,0],[-1,1,1],[1,2,3]])
 
 #print(get_co([[3,4,9,2],[2,37,7,8],[2,9,3,23],[1,86,9,6]]))
 
-print(determinant([[37,7,8],[9,3,23],[86,9,6]]))
+#print(matrix_inverse([[1,2,0],[-1,1,1],[1,2,3]]))
+
+#print(determinant([[37,7,8],[9,3,23],[86,9,6]]))
 
 #print(determinant([[1,1,1,1],[1,1,0,4],[1,0,2,0],[1,4,0,3]]))
-#polynomial_factory(the_canonical_sequence)  
+print(the_canonical_sequence[:3])
+print(polynomial_ints_outputer(3,polynomial_factory(the_canonical_sequence[:3])))

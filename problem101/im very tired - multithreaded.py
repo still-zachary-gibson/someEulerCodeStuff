@@ -50,7 +50,9 @@ def generate_start(n):
     for i in range(1,n+1):
         #print(i)
         thing_to = num_to_binary(i) #who would've thought this would become a choke point?
-        cool.extend([thing_to]*i)
+        for i in range(i//10**4):
+            cool.extend([thing_to]*i)
+        cool.extend([thing_to]*(i%10**4))
 
     #with open("saved_start_"+str(n), 'w') as config_fil
     #for i in range(1,n+1, multiprocessing.cpu_count()):
@@ -73,7 +75,7 @@ seen = (-1,0)
 def num_to_binary(n): #input int
     global seen
     og_n = n
-    '''if seen[0] == n:
+    if seen[0] == n:
         return seen[1]
     elif seen[0]+1 == n:
         base = list(seen[1])
@@ -91,7 +93,7 @@ def num_to_binary(n): #input int
                 return binary #i think it is but i'm not fully sure.
             else:
                 base[index] = "0"
-                index -= 1'''
+                index -= 1
     hi_est = (math.floor(math.log2(n)))
     binary = ""
     while hi_est >= 0:
@@ -265,14 +267,14 @@ def game_time(start):
         else:
             while start[choice][0] == "0" and len(start[choice]) > 1:
                 start[choice] = start[choice][1:]
-        print(start, "Turn: " + str(int(OnesTurn)))
+        #print(start, "Turn: " + str(int(OnesTurn)))
         OnesTurn = not OnesTurn
         turn_count += 1
     print(f"Zero won, only needing {zeroSkips} skips.")
     print(turn_count)
     return zeroSkips
         
-'''if game_time(generate_start(2)) != 2:
+if game_time(generate_start(2)) != 2:
     print("You broke something REALLY badly.")
     sys.exit()
 if game_time(generate_start(5)) != 17:
@@ -283,7 +285,8 @@ if game_time(generate_start(10)) != 64:
     sys.exit()
 
 
-game_time(generate_start(10**5))'''
+game_time(generate_start(10**5))
+'''
 
 #generate_start(10**4+10**4)
 
@@ -298,3 +301,4 @@ print(test_thing)
 #2 = 2
 #5 = 17
 #10 = 64
+'''

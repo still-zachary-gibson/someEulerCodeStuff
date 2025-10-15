@@ -1,4 +1,5 @@
 import math
+from concurrent.futures import ThreadPoolExecutor
 
 def factors(n):
     list_o_lower_factors = []
@@ -13,19 +14,29 @@ def factors(n):
     total_list = list_o_lower_factors + list_o_upper_factors
     return total_list
 
-solu_numb = 0
+solu_numb = True
 n = 4
 
-while solu_numb < 1000:
-    n += 1
-    solu_numb = 0
-    #factor = factors(n) #okay this just works
-    #so i've got a thing where i know that this just... works
-    #for thing in factor:
-    #    side_1 = n + n//thing
-    #    side_2 = side_1 * thing
-    #
-    #    print(side_1, side_2)
-    solu_numb = len(factors(n))
+awesome = -1
 
-print(n)
+def check(result):
+    global awesome
+    global solu_numb
+    if len(result.result()) >= 1000:
+        solu_numb = False
+        awesome = result.result()[-1]
+
+with ThreadPoolExecutor() as executor:
+    while solu_numb:
+        n += 1
+        #factor = factors(n) #okay this just works
+        #so i've got a thing where i know that this just... works
+        #for thing in factor:
+        #    side_1 = n + n//thing
+        #    side_2 = side_1 * thing
+        #
+        #    print(side_1, side_2)
+        future = executor.submit(factors, n)
+        future.add_done_callback(check)
+
+print(awesome)

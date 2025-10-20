@@ -110,12 +110,26 @@ def cool_calcs(n):
     prime_facts = factorization(n, False)
     s = product_notation(prime_facts)
     v = n//s
+    print(v)
     #oaky = inf_fors(prime_facts, 10, 0, [])
     oaky = inf_fors(factorization(v, False), 8, -1, [])
     idk_exactly = (flatten_list(oaky, True))
-    print(len(idk_exactly))
-
-    print(product_notation(i+8 for i in range(1,5))/math.factorial(4))
+    the_good_ones = []
+    for test in idk_exactly:
+        total_num = 1
+        for whatever in range(len(test)):
+            total_num *= (prime_list[whatever])**test[whatever]
+        #if total_num > v and total_num <= 2*v:
+        #    the_good_ones.append(total_num*s)
+    pp = prime_list[len(prime_facts)]
+    rp = v//pp
+    for test in idk_exactly:
+        total_num = 1
+        for whatever in range(len(test)):
+            total_num *= (prime_list[whatever])**test[whatever]
+        if total_num > rp and total_num <= 2*rp:
+            the_good_ones.append(total_num*s*pp) #7 results on theirs, 6 for me, yaaayyyy
+    print(the_good_ones)
     #for i in idk_exactly:
     #    print(i)
 

@@ -99,19 +99,25 @@ def check(result):
 
 def inf_fors(n, min, max, results):
     thing_to_return = []
-    if len(n) == 1:
+    if len(n) == 0:
         return results
     else:
         for i in range(min, max, -1):
-            thing_to_return.append(inf_fors(n[1:len(n)], i-1, 0, results + [i]))
+            thing_to_return.append(inf_fors(n[1:len(n)], i, -1, results + [i]))
         return thing_to_return
 
 def cool_calcs(n):
     prime_facts = factorization(n, False)
     s = product_notation(prime_facts)
     v = n//s
-    oaky = inf_fors(prime_facts, 10, 0, [])
-    print(flatten_list(oaky, True))
+    #oaky = inf_fors(prime_facts, 10, 0, [])
+    oaky = inf_fors(factorization(v, False), 8, -1, [])
+    idk_exactly = (flatten_list(oaky, True))
+    print(len(idk_exactly))
+
+    print(product_notation(i+8 for i in range(1,5))/math.factorial(4))
+    #for i in idk_exactly:
+    #    print(i)
 
 cool_calcs(97772875200)
 '''
